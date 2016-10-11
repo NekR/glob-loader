@@ -1,6 +1,6 @@
 {
   "name": "glob-loader",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "webpack loader to load files at once with glob",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "url": "https://github.com/seanchas116/glob-loader/issues"
   },
   "homepage": "https://github.com/seanchas116/glob-loader#readme",
-  "dependencies": {},
+  "dependencies": {
+    "glob": "^7.0.5"
+  },
   "peerDependencies": {
     "glob": "*"
   },

@@ -18,10 +18,8 @@
   },
   "homepage": "https://github.com/seanchas116/glob-loader#readme",
   "dependencies": {
-    "glob": "^7.0.5"
-  },
-  "peerDependencies": {
-    "glob": "*"
+    "glob": "^7.0.5",
+    "minimatch": "^3.0.3"
   },
   "keywords": [
     "webpack",
@@ -29,7 +27,6 @@
     "glob"
   ],
   "devDependencies": {
-    "glob": "^7.0.5",
     "tap": "^7.1.2",
     "webpack": "^1.9.10"
   }

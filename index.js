@@ -27,7 +27,7 @@ module.exports = function (content, sourceMap) {
       this.emitWarning('Did not find anything for glob key ["' + key + '"] in directory "' + resourceDir + '"');
     }
 
-    return generateObject.call(this, files, resourceDir, config.rewrite);
+    return generateObject.call(this, files, resourceDir, config);
   }.bind(this);
 
   if (query.section) {
@@ -87,16 +87,28 @@ function handle(query, issuer) {
   return result;
 }
 
-function generateObject(files, resourceDir, rewrite) {
-  var result = '({\n' + files.map(function (file) {
+function generateObject(files, resourceDir, config) {
+  var rewrite = config.rewrite;
+  var needExport = config.export === false ? false : true;
+
+  var result = files.map(function (file) {
     var dependency = path.resolve(resourceDir, file);
     this.addDependency(dependency);
 
-    var stringifiedFile = JSON.stringify(rewrite ? rewrite(file) : file);
     var stringifiedDep = JSON.stringify(dependency);
+    var requireString = 'require(' + stringifiedDep + ')';
 
-    return '\t' + stringifiedFile + ': require(' + stringifiedDep + ')';
-  }, this).join(',\n') + '\n})';
+    if (needExport) {
+      var stringifiedFile = JSON.stringify(rewrite ? rewrite(file) : file);
+      return '\t' + stringifiedFile + ': ' + requireString;
+    } else {
+      return requireString;
+    }
+  }, this);
 
-  return result;
+  if (needExport) {
+    return '({\n' + result.join(',\n') + '\n})';
+  } else {
+    return '(' + result.join(', ') + ', null)';
+  }
 }

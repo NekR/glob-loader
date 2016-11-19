@@ -53,7 +53,14 @@ module.exports.pitch = function(remainingRequest, precedingRequest, data) {
   var resourceDir;
 
   if (query.pattern) {
-    var issuer = this._module.issuer;
+    var issuer;
+
+    if (typeof this._module.issuer === 'string') {
+      issuer = this._module.issuer;
+    } else {
+      issuer = this._module.issuer.resource;
+    }
+
     var issuerIndex = issuer.lastIndexOf('!');
 
     if (issuerIndex !== -1) {
